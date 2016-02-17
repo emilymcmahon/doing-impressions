@@ -1,23 +1,28 @@
-var allCatJson = {}
+var allCategoriesJson = {}
 var shuffled = []
 var currentIndex = 0
 var instructions = ["do an impression of", "doing an impression of"]
 
 $(function () { // wait for document ready
+
+
 	$.ajax({
             type: 'GET',
             url: 'data.json',
             dataType: 'json',
             success: function(d) {
-            	allCatJson = d
+            	allCategoriesJson = d
 
             	// TODO filter by categories 
 
             	// concat arrays and shuffle
             	var allData = []
-            	for (var i = 0; i < allCatJson.length; i++) {
-				    allData = allData.concat(allCatJson[i].members)
+            	for (var i = 0; i < allCategoriesJson.length; i++) {
+				    allData = allData.concat(allCategoriesJson[i].members)
 				}
+				// create the category boxes
+				createCategoryButtons()
+
 				shuffled = shuffle(allData)
 				updateAll()
 				// bind refresh button
@@ -35,6 +40,26 @@ $(function () { // wait for document ready
             }  
         });
 });
+
+function createCategoryButtons() {
+	var buttonGroup = $('<div />', {
+		        "class": 'btn-group',
+		        "data-toggle": "buttons"})
+	var buttonLabel = $('<label />', {
+		        "class": 'btn btn-primary btn-lg'})
+  	for(var i = 0; i < allCategoriesJson.length; i++) {
+  		var buttonInput = "<input type=\"checkbox\" autocomplete=\"off\" checked=\"\">"
+  		var button = buttonLabel.clone().append(buttonInput).append(allCategoriesJson[i].category)
+  		buttonGroup.append(button)
+  	}
+  	$('.container').prepend(buttonGroup);
+  	$('.btn').click(function() {
+	    $('.btn').addClass('active').not(this).removeClass('active');
+
+	    // TODO: re-filter categories
+	});
+}
+
 
 function getNext() {
 	var oldIndex = currentIndex;
