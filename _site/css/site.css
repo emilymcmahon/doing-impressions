@@ -1,0 +1,48 @@
+body {
+    font-family: "Gotham Rounded SSm A","Gotham Rounded SSm B","gotham rounded","proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+.instruction {
+	text-align: center;
+	padding-bottom: 1%;
+	font-size: 1.2rem;
+}
+
+.box {
+    height: 30%;
+}
+
+.card {
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	font-size: 1.6rem;
+    border-radius: 10px;
+    background-color: #481d24;
+    width: 250px; 
+    margin: auto;
+    padding: 15px;
+}
+
+.container {
+	padding: 5% 0;
+	height: 100%;
+	position: relative;
+}
+
+img {
+	width: 100px;
+	margin: auto;
+	display: block;
+}
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
