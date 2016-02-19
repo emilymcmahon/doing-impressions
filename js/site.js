@@ -1,94 +1,119 @@
-var allCategoriesJson = {}
+var json = {}
 var shuffled = []
-var currentIndex = 0
-var instructions = ["do an impression of", "doing an impression of"]
+var idx = 0
+$( document ).ready(initializeOnDocumentReady);
 
-$(function () { // wait for document ready
+function initializeOnDocumentReady() {
+	getData();
+}
 
-
+function getData() {
 	$.ajax({
-            type: 'GET',
-            url: 'data.json',
-            dataType: 'json',
-            success: function(d) {
-            	allCategoriesJson = d
+        type: 'GET',
+        url: 'data.json',
+        dataType: 'json',
+        success: function(d) {
+        	json = d
+			initCategoryButtons();
+			filterData();
 
-            	// TODO filter by categories 
+			// bind refresh button
+			$('#refresh').click(updateCards);
+			
+			// bind individual cards
+			$('.card').click(function() {
+				updateContent($(this).find(".content"))
+			});
 
-            	// concat arrays and shuffle
-            	var allData = []
-            	for (var i = 0; i < allCategoriesJson.length; i++) {
-				    allData = allData.concat(allCategoriesJson[i].members)
+			$('.content0').change(function() {
+				var i = "do an impression of";
+				if ($(this).text() == $(this).text().toLowerCase()) {
+					i += " a"
 				}
-				// create the category boxes
-				createCategoryButtons()
+				$('.instruction0').text(i)
+			});
 
-				shuffled = shuffle(allData)
-				updateAll()
-				// bind refresh button
-				$('#refresh').click(updateAll);
-				// bind individual cards
-				$('.content0').click(function() {
-					updateCardAtIndex(0)
-				});
-				$('.content1').click(function() {
-					updateCardAtIndex(1)
-				});
-            }  ,
-            error: function(a,b,c) {
-            	alert(c);
-            }  
-        });
-});
+			$('.content1').change(function() {
+				var i = "doing an impression of";
+				if ($(this).text() == $(this).text().toLowerCase()) {
+					i += " a"
+				}
+				$('.instruction1').text(i)
+			})
+        }  ,
+        error: function(a,b,c) {
+        	alert(c);
+        }  
+    });
+}
 
-function createCategoryButtons() {
+
+function filterData() {
+	var cats = []
+	var data = []
+
+	// get active categories
+	$('.btn-group .btn.active').each(function() {
+		cats.push(this.id)
+	});
+
+	// concat arrays in active categories
+	for (var i = 0; i < json.length; i++) {
+		if (cats.length == 0 || cats.includes(json[i].key)) {
+			data = data.concat(json[i].members);
+		} 
+	}
+	
+	shuffled = shuffle(data);
+	updateCards();
+
+	return data;
+}
+
+function initCategoryButtons() {
 	var buttonGroup = $('<div />', {
-		        "class": 'btn-group',
-		        "data-toggle": "buttons"})
-	var buttonLabel = $('<label />', {
-		        "class": 'btn btn-primary btn-lg'})
-  	for(var i = 0; i < allCategoriesJson.length; i++) {
-  		var buttonInput = "<input type=\"checkbox\" autocomplete=\"off\" checked=\"\">"
-  		var button = buttonLabel.clone().append(buttonInput).append(allCategoriesJson[i].category)
+		        "class": 'btn-group ',
+		    	"id": "cat-buttons"})
+	var buttonTemplate = $('<button/>', 
+		{"class": 'btn btn-info active',
+		 "type": "button"})
+  	for(var i = 0; i < json.length; i++) {
+  		var button = buttonTemplate.clone();
+  		button.append(json[i].category);
+  		button.attr('id', json[i].key)
+
+		button.click(function() {
+		    $(this).toggleClass('active');
+		    filterData();
+		});
+
   		buttonGroup.append(button)
   	}
   	$('.container').prepend(buttonGroup);
-  	$('.btn').click(function() {
-	    $('.btn').addClass('active').not(this).removeClass('active');
 
-	    // TODO: re-filter categories
-	});
 }
-
 
 function getNext() {
-	var oldIndex = currentIndex;
-	currentIndex++;
-	if (currentIndex >= shuffled.length) {
-		// if we've looped through, shuffle again
-		currentIndex = 0;
+	var oldIndex = idx;
+	idx++;
+	if (idx >= shuffled.length) {
 		shuffled = shuffle(shuffled)
 	}
-	return shuffled[oldIndex];
+	return shuffled[idx];
 }
 
-function updateAll() {
-	updateCardAtIndex(0)
-	updateCardAtIndex(1)
+function updateCards() {
+	$('.content').each(function() {
+		updateContent(this);
+	})
 }
 
-function updateCardAtIndex(i) {
-	var instructionDiv = $('.instruction' + i)
-	instructionDiv.text(instructions[i])
-	var content = getNext()
-	if (content[0] == content[0].toLowerCase()) {
-		instructionDiv.append(" a")
-	}
-	$('.content' + i).text(content)
+function updateContent(c) {
+	$(c).text(getNext())
 }
-
 
 function shuffle(array) {
+  console.log("shuffling");
   var currentIndex = array.length, temporaryValue, randomIndex;
 
   // While there remain elements to shuffle...
@@ -103,6 +128,7 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
+  // After any shuffle, reset the idx to 0
+  idx = 0
   return array;
 }
