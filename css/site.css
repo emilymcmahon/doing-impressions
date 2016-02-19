@@ -7,6 +7,9 @@ body {
     height: 100vh;
 }
 
+.container {
+    height: 100vh;
+}
 .instruction {
 	padding-bottom: 1%;
 	font-size: 1.6rem;
