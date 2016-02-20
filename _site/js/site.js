@@ -22,31 +22,14 @@ function getData() {
 			
 			// bind individual cards
 			$('.card').click(function() {
-				updateContent($(this).find(".content"))
+				updateContent($(this).find(".content"));
 			});
-
-			$('.content0').change(function() {
-				var i = "do an impression of";
-				if ($(this).text() == $(this).text().toLowerCase()) {
-					i += " a"
-				}
-				$('.instruction0').text(i)
-			});
-
-			$('.content1').change(function() {
-				var i = "doing an impression of";
-				if ($(this).text() == $(this).text().toLowerCase()) {
-					i += " a"
-				}
-				$('.instruction1').text(i)
-			})
         }  ,
         error: function(a,b,c) {
         	alert(c);
         }  
     });
 }
-
 
 function filterData() {
 	var cats = []
@@ -109,7 +92,17 @@ function updateCards() {
 }
 
 function updateContent(c) {
-	$(c).text(getNext())
+	$(c).text(getNext());
+	var i = $(c).parent().siblings(".instruction");
+	var t = ($(i).hasClass('instruction0'))
+		? "You're"
+		: "doing an impression of";
+	if ($(c).text() == $(c).text().toLowerCase()) {
+		var vowellist = ['a','e','i','o','u'];
+		t += (vowellist.includes($(c).text()[0])) 
+				? " an" : " a";
+	}
+	$(i).text(t);
 }
 
 function shuffle(array) {
