@@ -1,41 +1,57 @@
-body {
-    font-family: "Gotham Rounded SSm A","Gotham Rounded SSm B","gotham rounded","proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
+* {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    width: 100vw;
-    height: 100vh;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-size: 2.4rem;
+    font-weight: bold;
 }
 
 .container {
-    height: 100vh;
-}
-.instruction {
-	padding-bottom: 1%;
-	font-size: 1.6rem;
-    font-weight: bold;
-    color: #483939;
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.test {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/*
 .row {
-    height: 33%;
-    padding: 15% 0;
+    display: inline-block;
 }
 
-
-.card {
-	color: white;
-	font-weight: bold;
-	font-size: 2.4rem;
-    border-radius: 10px;
-    background-color: #62AD88;
-    vertical-align: middle;
-    padding: 10%;
+.instruction {
+    display: inline-block;
 }
 
-.glyphicon-refresh {
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+*/
+
+.noun {
+  margin: 0 1%;
+  color: #8E0C0C;
+  display: inline-block;
+  border-bottom: 1px dashed #8A7A7A;
+}
+
+.glyphicon.glyphicon-refresh {
     vertical-align: bottom;
     font-size: .6em;
+    color: grey;
+    display: none;
 }
 
 img {
@@ -44,11 +60,6 @@ img {
 	display: none;
 }
 
-* {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-}
 
 #cat-buttons {
     display: none;

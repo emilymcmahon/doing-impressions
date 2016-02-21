@@ -18,10 +18,12 @@ function getData() {
 			filterData();
 
 			// bind refresh button
-			$('#refresh').click(updateCards);
+			$('#refresh').click(function() {
+				updateContent($(".content"));
+			});
 			
 			// bind individual cards
-			$('.card').click(function() {
+			$('.noun').click(function() {
 				updateContent($(this).find(".content"));
 			});
         }  ,
@@ -48,7 +50,7 @@ function filterData() {
 	}
 	
 	shuffled = shuffle(data);
-	updateCards();
+	updateContent($(".content"));
 
 	return data;
 }
@@ -85,24 +87,21 @@ function getNext() {
 	return shuffled[idx];
 }
 
-function updateCards() {
-	$('.content').each(function() {
-		updateContent(this);
-	})
-}
-
 function updateContent(c) {
-	$(c).text(getNext());
-	var i = $(c).parent().siblings(".instruction");
-	var t = ($(i).hasClass('instruction0'))
-		? "You're"
-		: "doing an impression of";
-	if ($(c).text() == $(c).text().toLowerCase()) {
-		var vowellist = ['a','e','i','o','u'];
-		t += (vowellist.includes($(c).text()[0])) 
-				? " an" : " a";
-	}
-	$(i).text(t);
+	$(c).each(function() {
+		$(this).text(getNext());	
+		var i = $(this).parent().prev(".instruction");
+		var t = ($(i).hasClass('instruction0'))
+			? "You're "
+			: "doing an impression of ";
+		if ($(this).text() == $(this).text().toLowerCase()) {
+			var vowellist = ['a','e','i','o','u'];
+			t += (vowellist.includes($(this).text()[0])) 
+					? "an " : "a ";
+		}
+		$(i).text(t);
+	})
+
 }
 
 function shuffle(array) {
