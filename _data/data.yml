@@ -1,7 +1,6 @@
 - key: "animals"
   category: "Animals"
   members: 
-    - "bee"
     - "cat"
     - "chicken"
     - "cow"
@@ -27,7 +26,6 @@
     - "seagull"
     - "duck"
     - "chimpanzee"
-    - "fly"
 - key: "archetypes"
   category: "Archetypes"
   members: 
@@ -72,5 +70,6 @@
     - "Adam Sandler"
     - "Britney Spears"
     - "Sean Connery"
+    - "Trump"
 
 
