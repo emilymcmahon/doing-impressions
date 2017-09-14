@@ -191,7 +191,7 @@ function updateContents(c) {
 
 function updateContent(container, text) {
 	container.text(text)	
-	var i = $(this).parent().prev(".instruction");
+	var i = container.parent().prev(".instruction");
 	var t = ($(i).hasClass('instruction0'))
 		? "You're "
 		: "doing an impression of ";
