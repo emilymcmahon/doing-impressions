@@ -148,7 +148,7 @@ function updatePermalink() {
 	var content1 = $(".content1").text()
 	var baseUrl = "http://doingimpressions.com/#"
 	var localUrl = "http://127.0.0.1:4000/#"
-	var url = localUrl + window.btoa(content0) + '-' + window.btoa(content1)
+	var url = baseUrl + window.btoa(content0) + '-' + window.btoa(content1)
 	$('#permalink').attr('href', url)
 	return 
 }
