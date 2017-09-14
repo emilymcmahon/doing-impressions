@@ -20,6 +20,7 @@
 
 #permalink {
   font-size: 14px;
+  cursor: pointer;
 }
 
 .container {
@@ -34,6 +35,7 @@
 .refresh {
   padding-top: 30px;
   color: #8E0C0C;
+  cursor: pointer;
 }
 
 .instruction {
@@ -45,6 +47,7 @@
   color: #8E0C0C;
   display: inline-block;
   border-bottom: 1px dashed #8A7A7A;
+  cursor: pointer;
 }
 
 .glyphicon.glyphicon-refresh {
