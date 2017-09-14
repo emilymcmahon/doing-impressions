@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 {% include head.html %}
-<body>
+<body class="Site">
 	<div class="container text-center">
 		<div class="test">
 			<div class="instruction instruction0">
@@ -22,11 +22,13 @@
 				<div class="glyphicon glyphicon-refresh" aria-hidden="true"></div>
 			</div>
 
-			<img id="refresh" src="refresh.svg"/>
 		</div>
+
+		<i class="fa fa-refresh refresh" aria-hidden="true"></i>
 	</div>
+
 	<footer>
-		{% include footer.html %}
+		<a id="permalink" href="">permalink</a>
 	</footer>
 </body>
 </html>

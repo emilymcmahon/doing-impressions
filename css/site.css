@@ -8,37 +8,37 @@
     font-weight: bold;
 }
 
-.container {
+.Site {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
   min-height: 100vh; /* These two lines are counted as one :-)       */
 
   display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+#permalink {
+  font-size: 14px;
+}
+
+.container {
+  display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  flex: 1;
 }
 
-.test {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
-/*
-.row {
-    display: inline-block;
+.refresh {
+  padding-top: 30px;
+  color: #8E0C0C;
 }
 
 .instruction {
-    display: inline-block;
+  display: inline;
 }
-
-.content {
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-}
-*/
 
 .noun {
   margin: 0 1%;
@@ -52,12 +52,6 @@
     font-size: .6em;
     color: grey;
     display: none;
-}
-
-img {
-	width: 100px;
-	margin: auto;
-	display: none;
 }
 
 

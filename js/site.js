@@ -1,13 +1,40 @@
 var json = {}
 var shuffled = []
+var data = []
 var idx = 0
 $( document ).ready(initializeOnDocumentReady);
 
 function initializeOnDocumentReady() {
-	getData();
+	data = getData();
+}
+
+function initData(data) {
+  	console.log("initData");
+	var hash = window.location.hash.replace("#","")
+	if (hash) {
+		var items = hash.split("-")
+		try {
+			var part0 = window.atob(items[0])
+			var part1 = window.atob(items[1])
+			if (dataContains(part0) && dataContains(part1)){
+				updateContent($('.content0'), part0);
+				updateContent($('.content1'), part1);
+			} else {
+				updateContents($('.content'));
+				removeHash();			
+			}
+		} catch (err) {
+			updateContents($('.content'));
+			removeHash();
+		}
+		
+	} else {
+		updateContents($(".content"));
+	}
 }
 
 function getData() {
+  	console.log("getData");
 	$.ajax({
         type: 'GET',
         url: 'data.json',
@@ -15,17 +42,24 @@ function getData() {
         success: function(d) {
         	json = d
 			initCategoryButtons();
-			filterData();
+			data = filterData();
+			shuffled = shuffle(data);
+			initData(data);
 
 			// bind refresh button
-			$('#refresh').click(function() {
-				updateContent($(".content"));
+			$('.refresh').click(function() {
+				removeHash();
+				updateContents($(".content"));
+				updatePermalink();
 			});
 			
 			// bind individual cards
 			$('.noun').click(function() {
-				updateContent($(this).find(".content"));
+				removeHash();
+				updateContents($(this).find(".content"));
+				updatePermalink();
 			});
+			return data;
         }  ,
         error: function(a,b,c) {
         	alert(c);
@@ -49,9 +83,6 @@ function filterData() {
 		} 
 	}
 	
-	shuffled = shuffle(data);
-	updateContent($(".content"));
-
 	return data;
 }
 
@@ -78,6 +109,14 @@ function initCategoryButtons() {
 
 }
 
+function dataContains(str) {
+	if (data.indexOf(str) > -1) {
+		return true
+	} else {
+		return false
+	}
+}
+
 function getNext() {
 	var oldIndex = idx;
 	idx++;
@@ -87,22 +126,54 @@ function getNext() {
 	return shuffled[idx];
 }
 
-function updateContent(c) {
-	$(c).each(function() {
-		$(this).text(getNext());	
-		var i = $(this).parent().prev(".instruction");
-		var t = ($(i).hasClass('instruction0'))
-			? "You're "
-			: "doing an impression of ";
-		if ($(this).text() == $(this).text().toLowerCase()) {
-			var vowellist = ['a','e','i','o','u'];
-			t += (vowellist.includes($(this).text()[0])) 
-					? "an " : "a ";
-		}
-		$(i).text(t);
-	})
+function removeHash () { 
+    var scrollV, scrollH, loc = window.location;
+    if ("pushState" in history)
+        history.pushState("", document.title, loc.pathname + loc.search);
+    else {
+        // Prevent scrolling by storing the page's current scroll offset
+        scrollV = document.body.scrollTop;
+        scrollH = document.body.scrollLeft;
 
+        loc.hash = "";
+
+        // Restore the scroll offset, should be flicker free
+        document.body.scrollTop = scrollV;
+        document.body.scrollLeft = scrollH;
+    }
 }
+
+function updatePermalink() {
+	var content0 = $(".content0").text()
+	var content1 = $(".content1").text()
+	var baseUrl = "http://doingimpressions.com/#"
+	var localUrl = "http://127.0.0.1:4000/#"
+	var url = localUrl + window.btoa(content0) + '-' + window.btoa(content1)
+	$('#permalink').attr('href', url)
+	return 
+}
+
+function updateContents(c) {
+	$(c).each(function() {
+		updateContent($(this), getNext());	
+	})
+	updatePermalink()
+}
+
+function updateContent(container, text) {
+	container.text(text)	
+	var i = $(this).parent().prev(".instruction");
+	var t = ($(i).hasClass('instruction0'))
+		? "You're "
+		: "doing an impression of ";
+	if ($(this).text() == $(this).text().toLowerCase()) {
+		var vowellist = ['a','e','i','o','u'];
+		t += (vowellist.includes($(this).text()[0])) 
+				? "an " : "a ";
+	}
+	$(i).text(t);
+}
+
 
 function shuffle(array) {
   console.log("shuffling");
