@@ -73,26 +73,6 @@ function getData() {
         }  
     });
 }
-/**
-function filterData() {
-	var cats = []
-	var data = []
-
-	// get active categories
-	$('.btn-group .btn.active').each(function() {
-		cats.push(this.id)
-	});
-
-	// concat arrays in active categories
-	for (var i = 0; i < json.length; i++) {
-		if (cats.length == 0 || cats.includes(json[i].key)) {
-			data = data.concat(json[i].members);
-		} 
-	}
-	
-	return data;
-}
-**/
 
 function filterDataByCategory(cats) {
 	var d = [];
@@ -106,30 +86,7 @@ function filterDataByCategory(cats) {
 	
 	return d;
 }
-/**
-function initCategoryButtons() {
-	var buttonGroup = $('<div />', {
-		        "class": 'btn-group ',
-		    	"id": "cat-buttons"})
-	var buttonTemplate = $('<button/>', 
-		{"class": 'btn btn-info active',
-		 "type": "button"})
-  	for(var i = 0; i < json.length; i++) {
-  		var button = buttonTemplate.clone();
-  		button.append(json[i].category);
-  		button.attr('id', json[i].key)
 
-		button.click(function() {
-		    $(this).toggleClass('active');
-		    filterData();
-		});
-
-  		buttonGroup.append(button)
-  	}
-  	$('.container').prepend(buttonGroup);
-
-}
-**/
 
 function dataContains(str) {
 	if (data.indexOf(str) > -1) {
@@ -195,11 +152,6 @@ function updateContent(container, text) {
 	var t = ($(i).hasClass('instruction0'))
 		? "You're "
 		: "doing an impression of ";
-	if ($(this).text() == $(this).text().toLowerCase()) {
-		var vowellist = ['a','e','i','o','u'];
-		t += (vowellist.includes($(this).text()[0])) 
-				? "an " : "a ";
-	}
 	$(i).text(t);
 }
 
